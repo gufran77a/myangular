@@ -10,6 +10,7 @@ import { TodosContainerComponent } from './todos/components/todos-container.comp
 import { StockMarketContainerComponent } from './stock-market/components/stock-market-container.component';
 import { CrudComponent } from './crud/components/crud.component';
 import { FormComponent } from './form/components/form.component';
+import { Form1Component } from './form1/components/form.component';
 import { NotificationsComponent } from './notifications/components/notifications.component';
 import { UserComponent } from './simple-state-management/components/user.component';
 import { ElementsComponent } from './elements/elements.component';
@@ -74,6 +75,10 @@ const routes: Routes = [
         component: AuthenticatedComponent,
         canActivate: [AuthGuardService],
         data: { title: 'anms.examples.menu.auth' }
+      },
+      {
+        path: 'studentm',
+        component: Form1Component
       }
     ]
   }
