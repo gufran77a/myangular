@@ -1,7 +1,7 @@
 <div class="container" rtl>
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">{{ 'anms.examples.form.title1' | translate }}</h1>
+      <h1 class="main-heading">{{ 'anms.examples.form.title' | translate }}</h1>
     </div>
   </div>
   <ng-container *ngIf="formValueChanges$ | async as updatedForm">
@@ -19,7 +19,7 @@
           </span>
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'anms.examples.form.placeholder1' | translate }}"
+              <input matInput placeholder="user name"
                 formControlName="username">
               <mat-error *ngIf="form.get('username').invalid">
                 {{ 'anms.examples.form.placeholder1' | translate }}
@@ -27,7 +27,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput type="password" placeholder="{{ 'anms.examples.form.placeholder2' | translate }}"
+              <input matInput type="password" placeholder="password"
                 formControlName="password">
               <mat-error *ngIf="form.get('password').invalid">
                 {{ 'anms.examples.form.placeholder2' | translate }}
@@ -48,6 +48,12 @@
                 {{ 'anms.examples.form.error2' | translate }}</mat-error>
             </mat-form-field>
           </div>
+
+
+
+
+
+
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
               <input matInput formControlName="birthday" [matDatepicker]="picker" placeholder="{{ 'anms.examples.form.placeholder5' | translate }}">
@@ -80,18 +86,71 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="row" [ngClass]="routeAnimationsElements">
+        <!--  <div class="row" [ngClass]="routeAnimationsElements">
             <div class="col">
               <label>{{ 'anms.examples.form.text2' | translate }}</label>
               <br>
               <mat-slider thumbLabel tickInterval="1" min="1" max="10" formControlName="rating"></mat-slider>
             </div>
-          </div>
-          <div class="row">
+          </div>-->
+          <!--div class="row">
             <mat-checkbox class="col" formControlName="requestGift" [ngClass]="routeAnimationsElements">
               {{ 'anms.examples.form.text1' | translate }}
             </mat-checkbox>
+          </div>-->
+
+<div class="row">
+          &nbsp;&nbsp;&nbsp;<mat-form-field appearance="fill">
+            <mat-label>{{ 'anms.examples.form.placeholder6' | translate }}</mat-label>
+            <mat-select formControlName="classes" >
+              <mat-option *ngFor="let classlist1 of classlist" [value]="classlist1">{{classlist1}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('classes').hasError('required')">
+              {{ 'anms.examples.form.placeholder6' | translate }}
+              {{ 'anms.examples.form.error6' | translate }}
+            </mat-error>
+          </mat-form-field>
+          &nbsp;&nbsp;&nbsp;<mat-form-field appearance="fill">
+            <mat-label>{{ 'anms.examples.form.placeholder7' | translate }}</mat-label>
+            <mat-select formControlName="vehicleroot" >
+              <mat-option *ngFor="let vehiclerootslist1 of vehiclerootslist" [value]="vehiclerootslist1">{{vehiclerootslist1}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('vehicleroot').hasError('required')">
+              {{ 'anms.examples.form.placeholder7' | translate }}
+              {{ 'anms.examples.form.error7' | translate }}
+            </mat-error>
+          </mat-form-field>
+
+
+
           </div>
+
+
+
+
+  <!--mat-form-field  appearance="fill" >
+          <mat-radio-group formControlName="gender">
+
+    <mat-radio-button value="1">Male</mat-radio-button>
+    <mat-radio-button value="2">FeMale 2</mat-radio-button>
+</mat-radio-group>
+</mat-form-field-->
+<div class="row">
+<mat-radio-group  formControlName="gender" aria-label="Select an option">
+&nbsp;&nbsp;&nbsp;&nbsp;gender:<mat-radio-button value="male">Option 1</mat-radio-button>
+&nbsp;&nbsp;<mat-radio-button value="female">Option 2</mat-radio-button>
+<mat-error *ngIf="form.get('gender').hasError('required')">
+  {{ 'anms.examples.form.placeholder8' | translate }}
+  {{ 'anms.examples.form.error8' | translate }}
+</mat-error>
+</mat-radio-group>
+<!-- Copyright 2020 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
+</div>
+
+
+
           <div class="row buttons d-flex justify-content-between pad">
             <button mat-raised-button color="primary" [ngClass]="routeAnimationsElements">
               {{ 'anms.examples.form.send' | translate }}

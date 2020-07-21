@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./features/about/about.module').then(m => m.AboutModule)
   },
   {
-    path: 'feature-list',
+    path: 'students',
     loadChildren: () =>
       import('./features/feature-list/feature-list.module').then(
         m => m.FeatureListModule

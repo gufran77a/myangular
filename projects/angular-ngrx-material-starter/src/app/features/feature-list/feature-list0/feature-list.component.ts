@@ -9,7 +9,7 @@ import { Feature, features } from '../feature-list.data';
   styleUrls: ['./feature-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeatureListComponent implements OnInit {
+export class FeatureList0Component implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
   features: Feature[] = features;
 

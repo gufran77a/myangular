@@ -22,6 +22,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
   FontAwesomeModule,
   FaIconLibrary
@@ -138,4 +141,11 @@ export class SharedModule {
       faBook
     );
   }
+}
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(
+    http,
+    `${environment.i18nPrefix}/assets/i18n/examples/`,
+    '.json'
+  );
 }

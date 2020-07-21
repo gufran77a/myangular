@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { filter, debounceTime, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
   ROUTE_ANIMATIONS_ELEMENTS,
@@ -22,12 +23,19 @@ import { Form } from '../form.model';
 })
 export class Form1Component implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+  classlist: string[] = ['10thclass', 'inter1styear', 'secondyear'];
+  vehiclerootslist: string[] = ['via mehdipatnam', 'via mallepally'];
+  //genderlist1:string[]=['male','female','others'];
 
   form = this.fb.group({
     autosave: false,
     username: ['', [Validators.required]],
     password: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
+    classes: ['', [Validators.required]],
+    vehicleroot: ['', [Validators.required]],
+    gender: ['', [Validators.required]],
+
     description: [
       '',
       [
@@ -44,6 +52,7 @@ export class Form1Component implements OnInit {
   formValueChanges$: Observable<Form>;
 
   constructor(
+    private http: HttpClient,
     private fb: FormBuilder,
     private store: Store,
     private translate: TranslateService,
@@ -65,7 +74,12 @@ export class Form1Component implements OnInit {
   }
 
   save() {
-    this.store.dispatch(actionFormUpdate({ form: this.form.value }));
+    //this.store.dispatch(actionFormUpdate({ form: this.form.value }));
+    this.http.post('http://localhost:3000/student', this.form.value);
+    alert(this.form.value);
+
+    //this.httpClient.post("http://127.0.0.1:3000/customers",{this.form.value});
+    alert(this.form.value);
   }
 
   submit() {
@@ -80,7 +94,6 @@ export class Form1Component implements OnInit {
       );
     }
   }
-
   reset() {
     this.form.reset();
     this.form.clearValidators();

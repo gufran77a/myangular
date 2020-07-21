@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule, HttpLoaderFactory } from '../../shared/shared.module';
 import { environment } from '../../../environments/environment';
 
 import { FEATURE_NAME, reducers } from './examples.state';
@@ -30,7 +30,10 @@ import { ExamplesEffects } from './examples.effects';
 import { UserComponent } from './simple-state-management/components/user.component';
 import { UserService } from './simple-state-management/user.service';
 import { ElementsComponent } from './elements/elements.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
+/*
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
     http,
@@ -38,7 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     '.json'
   );
 }
-
+*/
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -46,6 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     ExamplesRoutingModule,
     StoreModule.forFeature(FEATURE_NAME, reducers),
+    MatSelectModule,
+    MatRadioModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -71,7 +76,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AuthenticatedComponent,
     CrudComponent,
     FormComponent,
-    Form1Component,
+    //    Form1Component,
     NotificationsComponent,
     UserComponent,
     ElementsComponent
