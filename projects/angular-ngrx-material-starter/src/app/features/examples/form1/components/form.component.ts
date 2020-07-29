@@ -5,16 +5,26 @@ import { filter, debounceTime, take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   ROUTE_ANIMATIONS_ELEMENTS,
   NotificationService
 } from '../../../../core/core.module';
 
 import { actionFormReset, actionFormUpdate } from '../../form/form.actions';
-import { selectFormState } from '../../form/form.selectors';
+//import { selectFormState } from '../../form/form.selectors';
 import { Form } from '../form.model';
 
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'anms-form1',
   templateUrl: './form.component.html',
@@ -23,30 +33,70 @@ import { Form } from '../form.model';
 })
 export class Form1Component implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
-  classlist: string[] = ['10thclass', 'inter1styear', 'secondyear'];
-  vehiclerootslist: string[] = ['via mehdipatnam', 'via mallepally'];
+  classlist: string[] = [
+    '10th standard(10th)',
+    '11th standard(11th)',
+    '12th standard(12th)',
+    '9th standard(9th)'
+  ];
+  vehiclerootslist: string[] = [
+    'Circul HouseTo Railway Station(RJ19B01)',
+    'Saint patrics Little Star School(RJ19B02)'
+  ];
   //genderlist1:string[]=['male','female','others'];
-
+  dormitorynamelist: string[] = [
+    'KV hostel(10rooms)',
+    'Saintpaul Hostel(40rooms)'
+  ];
+  parentsList: string[] = [
+    'Clarentsparents(parent01@gmail.com)',
+    'karriparent(parent02@gmail.com)'
+  ];
+  //mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
   form = this.fb.group({
-    autosave: false,
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
+    //autosave: false,
+    name: ['', [Validators.required]],
+    phonenumber: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('^((\\+91-?)|0|(\\+92-?))?[0-9]{10}$')
+      ]
+    ],
+    address: ['', [Validators.required]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(6),
+        Validators.maxLength(15)
+      ]
+    ],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('((?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,30})')
+      ]
+    ],
     classes: ['', [Validators.required]],
     vehicleroot: ['', [Validators.required]],
     gender: ['', [Validators.required]],
+    parentname: ['', [Validators.required]],
+    birthdate: ['', [Validators.required]],
+    dormintary: ['', [Validators.required]]
 
-    description: [
+    //  rating: [0, Validators.required],
+
+    /*description: [
       '',
       [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(1000)
       ]
-    ],
-    requestGift: [''],
-    birthday: ['', [Validators.required]],
-    rating: [0, Validators.required]
+    ],*/
   });
 
   formValueChanges$: Observable<Form>;
@@ -56,31 +106,45 @@ export class Form1Component implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private translate: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.formValueChanges$ = this.form.valueChanges.pipe(
+    /*  this.formValueChanges$ = this.form.valueChanges.pipe(
       debounceTime(500),
       filter((form: Form) => form.autosave)
-    );
-    this.store
+    );*/
+    /*  this.store
       .pipe(select(selectFormState), take(1))
-      .subscribe(form => this.form.patchValue(form.form));
+      .subscribe(form => this.form.patchValue(form.form));*/
   }
 
   update(form: Form) {
-    this.store.dispatch(actionFormUpdate({ form }));
+    //    this.store.dispatch(actionFormUpdate({ form }));
   }
-
-  save() {
+  /*save() {
     //this.store.dispatch(actionFormUpdate({ form: this.form.value }));
-    this.http.post('http://localhost:3000/student', this.form.value);
-    alert(this.form.value);
+    this.http.post(serviceposturl + this.form.value,JSON.stringify(this.form.value));
 
+    alert(this.form.value);
+//"http://localhost:3000" + '/products/', JSON.stringify(product),
     //this.httpClient.post("http://127.0.0.1:3000/customers",{this.form.value});
     alert(this.form.value);
+  }*/
+
+  //serviceposturl="http://localhost:3000/student";
+
+  serviceposturl = 'http://localhost:3000/student';
+
+  save() {
+    this.http.post(this.serviceposturl, this.form.value).subscribe(data => {
+      this.router.navigateByUrl('/students');
+      //  this.postId = data.id;
+    });
   }
+
+  //    this.router.navigateByUrl('/crud/home/'))
 
   submit() {
     if (this.form.valid) {
