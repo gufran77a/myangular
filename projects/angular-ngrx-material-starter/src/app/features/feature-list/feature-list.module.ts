@@ -8,16 +8,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { FeatureListComponent } from './feature-list/feature-list.component';
+import {
+  FeatureListComponent,
+  ApiService
+} from './feature-list/feature-list.component';
 
 import { FeatureList0Component } from './feature-list0/feature-list.component';
 import { FeatureListRoutingModule } from './feature-list-routing.module';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [FeatureListComponent, FeatureList0Component, Form1Component],
   providers: [
+    ApiService,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' }
@@ -27,6 +32,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     CommonModule,
     SharedModule,
     MatRadioModule,
+    MatTableModule,
+    MatCheckboxModule,
     /*  TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
