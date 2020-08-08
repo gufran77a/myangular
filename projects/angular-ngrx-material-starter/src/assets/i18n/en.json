@@ -64,7 +64,7 @@
   "anms.title.short": "Angular Starter",
   "anms.title.newForm": "Gufrani Form",
   "anms.about.change-theme1": "Student Create Form",
-  "anms.about.studentlist": "students",
+  "anms.about.studentlist": "Students",
   "anms.examples.auth.description1": "This component is only accessible for authenticated users",
   "anms.examples.auth.description2": "Logging out will cause user to be redirected to home screen if visiting route accessible only to authenticated users",
   "anms.examples.auth.title": "Authenticated component",

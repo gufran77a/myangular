@@ -1,12 +1,11 @@
 export interface Form {
-  autosave: boolean;
+  id: string;
   username: string;
   password: string;
   email: string;
   description: string;
-  requestGift: boolean;
+  checked?: boolean;
   birthday: Date;
-  rating: number;
 }
 
 export interface FormState {

@@ -1,73 +1,127 @@
-
-<div class="row justify-content-center">
-  <div class=col-md-2>
+<div class="container" rtl>
+<div class="row">
+<div class=col-md-5>
+  </div>
+  <div class=col-md-3 >
+      <h1>Student List</h1>
+    </div>
+  <div class=col-md-4 >
 
     </div>
-    <div class=col-md-2>
-<!--<i class="fad fa-trash"></i>-->
+    </div>
+
+
+
+
+
+
+<div class="row justify-content-center">
+        <div class="col-md-4">
+          <button type="button" mat-raised-button class="actions-main" [disabled]="selection.selected.length==0" color="warn"  class="mr-3 mt-4" (click)="deleteItem()">
+          Delete
+          </button>
+          </div>
+
+
+              <div class="col-md-3">
+
+
+  </div>
+
+  <div class="col-md-3">
+
+    <div fxLayout fxLayoutAlign="" class="ml-5">
+      <mat-form-field fxFlex="20%">
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+</div>
+
+
+
+
+<div class="col-md-2">
+  <button type="button" mat-raised-button color="accent"[routerLink]="['studentm']" class="mr-5 mr-1 mt-4">
+      New Student Form
+      </button>
       </div>
-    <div class=col-md-8 >
-      <a mat-raised-button class="actions-main" style="background-color:red;" class="mb-3 mt-3 " routerLink="about" [ngClass]="routeAnimationsElements">
-        Delete
-      </a>
-    
-    <a mat-raised-button class="actions-main" color="primary" class="mb-3 mt-3 ml-5" routerLink="studentm" [ngClass]="routeAnimationsElements">
-        {{ 'anms.about.change-theme1' | translate }}
-      </a>
+  </div>
 
 
-</div>
 
-</div>
 
-  <div class="row justify-content-center">
-    <div class="col-md-4 ">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mb-3">
-
-    <ng-container matColumnDef="box">
-      <th mat-header-cell *matHeaderCellDef width=300></th>
-      <td mat-cell *matCellDef="let element">
-        <mat-checkbox class="example-marginsssss"></mat-checkbox>
+<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 ml-5">-->
+<div class="mat-elevation-z8 resposive-table box-default mb-3">
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef width="100">
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
       </td>
+
     </ng-container>
 
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef width=300> Student Enrolment Id </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef width=300> Name </th>
+<ng-container matColumnDef="name">
+<th mat-header-cell *matHeaderCellDef class="ml-4" width="200" > <h3>Name</h3> </th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef width="200"> Email </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="phonenumber">
-    <th mat-header-cell *matHeaderCellDef width=300> Phonenumber </th>
+    <th mat-header-cell *matHeaderCellDef width="150"> Phone Number </th>
     <td mat-cell *matCellDef="let element"> {{element.phonenumber}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef width=300>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
-       <fa-icon [icon]="['fas','edit']"></fa-icon>
-      </button>
-      <button mat-icon-button routerLink="settings" class="d-none d-sm-inline">
-       <fa-icon [icon]="['fas','edit']"></fa-icon>
-      </button>
+  <ng-container matColumnDef="vehicleroot">
+    <th mat-header-cell *matHeaderCellDef  width="300"> Vehicle Root </th>
+    <td mat-cell *matCellDef="let element"> {{element.vehicleroot}} </td>
+  </ng-container>
 
+
+  <ng-container matColumnDef="actions"class="ml-5">
+    <th mat-header-cell *matHeaderCellDef > Actions</th>
+    <td mat-cell *matCellDef="let element">
+        <a [routerLink]="['studentsEdit',element.id]">
+        <fa-icon [icon]="['fas','edit']"></fa-icon>
+      </a>
+      <a [routerLink]="['studentsEdit',element.id]" class="ml-3">
+      <fa-icon [icon]="['fas','edit']"></fa-icon>
+    </a>
     </td>
   </ng-container>
 
 
 
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns">
 
-
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="selection.toggle(row)">
   </tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+
+
+
+
+
+
+</mat-table>
+<mat-paginator [pageSizeOptions]="[1,2,3,4,5,10, 25, 100]" [pageSize]="pageSize" [length]="75"  (page)="getServerData($event)"></mat-paginator>
+</div>
 
 </div>
-  </div>

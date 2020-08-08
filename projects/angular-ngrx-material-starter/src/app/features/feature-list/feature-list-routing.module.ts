@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Form1Component } from '../examples/form1/components/form.component';
-//projects/angular-ngrx-material-starter/src/app/features/examples/form1/components/form.component.ts
-//projects/angular-ngrx-material-starter/src/app/features/feature-list/feature-list-routing.module.ts
+import { FeatureEditComponent } from '../feature-list/feature-edit/feature-list.component';
 import {
   FeatureListComponent,
   ApiService
 } from './feature-list/feature-list.component';
-
-import { FeatureList0Component } from './feature-list0/feature-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -16,17 +13,12 @@ const routes: Routes = [
     data: { title: 'anms.menu.features' }
   },
   {
-    path: '0',
-    component: FeatureList0Component,
-    data: { title: 'anms.menu.features' }
-  },
-  {
     path: 'studentm',
     component: Form1Component
   },
   {
-    path: 'studentEdit'
-    //    component: StudentEditComponent
+    path: 'studentsEdit/:id',
+    component: FeatureEditComponent
   }
 ];
 

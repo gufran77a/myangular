@@ -1,24 +1,53 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-//import { TranslateService } from '@ngx-translate/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-//import { Feature, features } from '../feature-list.data';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Validators, FormBuilder } from '@angular/forms';
-
-import { Injectable } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ViewChild
+} from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/index';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
+//import { MatPaginator } from '@angular/material/paginator';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatPaginator } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 @Injectable()
 export class ApiService {
   constructor(private http: HttpClient) {}
   baseUrl: string = 'http://localhost:3000/student';
+  baseUrl2: string = 'http://localhost:3000';
 
   getAll(): Observable<any> {
     return this.http.get<any>(this.baseUrl);
   }
+  getAll2(request): Observable<any> {
+    const params = request;
+    return this.http.get<any>(this.baseUrl, { params });
+  }
+
+  deletePost(id): Observable<any> {
+    return this.http.delete('http://localhost:3000/student/' + id);
+  }
 }
 
+/**
+ * @title Table with selection
+ */
 @Component({
   selector: 'anms-feature-list',
   templateUrl: './feature-list.component.html',
@@ -26,70 +55,172 @@ export class ApiService {
   //  ,  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeatureListComponent implements OnInit {
-  routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'email',
+    'phonenumber',
+    'vehicleroot',
+    'actions'
+  ];
+  dataSource = new MatTableDataSource<any>([]);
+  selection = new SelectionModel<any>(true, []);
 
-  displayedColumns: string[] = ['box', 'id', 'name', 'phonenumber', 'actions'];
-  dataSource: any[] = [{}];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  //@ViewChild(MatPaginator) paginator: MatPaginator;
+  //@ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private apiService: ApiService) {}
-
+  pageNumber = 1;
+  pageSize = 10;
+  index = 100;
+  length: number;
+  dataSource2: number;
+  getServerData(obj) {
+    // this.index=obj.length;
+    this.pageNumber = obj.pageIndex + 1;
+    this.length = obj.length;
+    this.loadAll(this.pageNumber, obj.pageSize, this.length);
+    //alert("ok")
+  }
   ngOnInit() {
-    this.apiService.getAll().subscribe(data => {
-      this.dataSource = data;
+    this.loadAll(this.pageNumber, this.pageSize, this.length);
+  }
+
+  loadAll(pageNumber, pageSize, index) {
+    this.apiService
+      .getAll2({ _page: pageNumber, _limit: pageSize, index: this.length })
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource2 = data.length;
+
+        //this.pages=new Array['totalPages']
+        //alert(this.dataSource);
+        //  this.pageSize=data.length;
+        //this.dataSource = new MatTableDataSource<any>(data);
+        //  this.dataSource.paginator = this.paginator;
+
+        //    this.dataSource2=this.dataSource;
+      });
+  }
+
+  /*setPage(i,$event)
+{
+  this.page=i
+  this.apiService.getAll2(this.page).subscribe(data => {
+    this.dataSource = data;
+
+    this.pages=new Array['totalPages']
+    this.dataSource = new MatTableDataSource<any>(data);
+  //  this.dataSource.paginator = this.paginator;
+
+//    this.dataSource2=this.dataSource;
+  });
+
+}*/
+
+  constructor(
+    private apiService: ApiService,
+    private http: HttpClient,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  };
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+
+    return numSelected === numRows;
+  }
+  myArray = [];
+  myArrayNames = [];
+  deleteItem() {
+    for (let i = 0; i < this.selection.selected.length; i++) {
+      this.myArray.push(this.selection.selected[i].id);
+      this.myArrayNames.push(this.selection.selected[i].name);
+    }
+    console.log(this.myArray, this.myArrayNames);
+    this.openDialog(this.myArray, this.myArrayNames);
+    this.ngOnInit();
+    this.selection = new SelectionModel<any>(true, []);
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${
+      this.selection.isSelected(row) ? 'deselect' : 'select'
+    } row ${row.position + 1}`;
+  }
+
+  id: string;
+
+  openDialog(id2, id3): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      //width: '350px',
+      data: { id: id2, name: id3 }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.id = result;
+      //  alert(result)
     });
   }
 }
 
-/*import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-import { Feature, features } from '../feature-list.data';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Router} from "@angular/router";
-import { Validators, FormBuilder } from '@angular/forms';
-
-
-
-
-
-@Component({
-  selector: 'anms-feature-list',
-  templateUrl: './feature-list.component.html',
-  styleUrls: ['./feature-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class FeatureListComponent implements OnInit {
-  routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
-  features: Feature[] = features;
-  constructor(
-    private http: HttpClient,
-    private fb: FormBuilder,
-    private translate: TranslateService,
-    private router: Router
-  ) {}
-  ngOnInit() {
-    this.getAll1();
-  }
-
-
-
-  openLink(link: string) {
-    window.open(link, '_blank');
-  }
-  serviceposturl = 'http://localhost:3000/student';
- studentlist:any=[];
-getAll1()
-{
-    this.http.get(this.serviceposturl).subscribe( data => {
-         this.studentlist = data;
-       });
+export interface DialogData {
+  id: string;
+  name: string;
 }
 
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: './feature-list2.component.html'
+})
+export class DialogOverviewExampleDialog {
+  selection = new SelectionModel<any>(true, []);
 
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private apiService: ApiService
+  ) {}
 
-
-
-
-
-
-}*/
+  ngOnInit() {
+    this.apiService.getAll().subscribe(data => {
+      //    this.dataSource = data;
+      //  this.dataSource2 = new MatTableDataSource<any>(data);
+      //    this.dataSource2=this.dataSource;
+    });
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
+    alert('Cancel Selected Item');
+    this.refresh();
+  }
+  onYesClick(id2): void {
+    for (let i = 0; i < id2.length; i++) {
+      this.apiService.deletePost(id2[i]).subscribe(data => {
+        this.dialogRef.close();
+        //this.router.navigateByUrl('/students');
+      });
+    }
+    alert(this.data.name + '   ' + 'is Deleted Successfully');
+    this.refresh();
+  }
+  refresh() {
+    window.location.reload();
+  }
+}

@@ -1,0 +1,13 @@
+
+  <div mat-dialog-content>
+    <h4>Confirmation</h4>
+    <p>[{{data.name}}] Delete Selected Records? </p>
+
+
+
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="onYesClick(data.id)" color="warn">Delete</button>
+  </div>
