@@ -19,6 +19,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 export interface PeriodicElement {
   name: string;
@@ -30,7 +31,7 @@ export interface PeriodicElement {
 export class ApiService {
   constructor(private http: HttpClient) {}
   baseUrl: string = 'http://localhost:3000/student';
-  baseUrl2: string = 'http://localhost:3000';
+  //baseUrl2: string = 'http://localhost:3000';
 
   getAll(): Observable<any> {
     return this.http.get<any>(this.baseUrl);
@@ -57,6 +58,7 @@ export class ApiService {
 export class FeatureListComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
+    //'id',
     'name',
     'email',
     'phonenumber',
@@ -69,54 +71,64 @@ export class FeatureListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   pageNumber = 1;
   pageSize = 10;
   index = 100;
   length: number;
   dataSource2: number;
+  sortname: string = 'name';
+  sorttype: string = 'asc';
+  filtervariable: string = '';
+
   getServerData(obj) {
     // this.index=obj.length;
     this.pageNumber = obj.pageIndex + 1;
     this.length = obj.length;
-    this.loadAll(this.pageNumber, obj.pageSize, this.length);
+    this.loadAll(
+      this.pageNumber,
+      obj.pageSize,
+      this.sortname,
+      this.sorttype,
+      this.filtervariable
+    );
     //alert("ok")
   }
   ngOnInit() {
-    this.loadAll(this.pageNumber, this.pageSize, this.length);
+    this.loadAll(this.pageNumber, this.pageSize, '', '', '');
+  }
+  //active: "phonenumber", direction: "desc
+
+  sortData(sort) {
+    this.sortname = sort.active;
+    this.sorttype = sort.direction;
+
+    this.loadAll(
+      this.pageNumber,
+      this.pageSize,
+      this.sortname,
+      this.sorttype,
+      this.filtervariable
+    );
   }
 
-  loadAll(pageNumber, pageSize, index) {
+  loadAll(pageNumber, pageSize, sortname, sorttype, filtertype) {
     this.apiService
-      .getAll2({ _page: pageNumber, _limit: pageSize, index: this.length })
+      .getAll2({
+        _page: pageNumber,
+        _limit: pageSize,
+        _sort: this.sortname,
+        _order: this.sorttype,
+        q: filtertype
+      })
       .subscribe(data => {
         this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource2 = data.length;
-
-        //this.pages=new Array['totalPages']
-        //alert(this.dataSource);
-        //  this.pageSize=data.length;
-        //this.dataSource = new MatTableDataSource<any>(data);
-        //  this.dataSource.paginator = this.paginator;
-
-        //    this.dataSource2=this.dataSource;
+        //  this.dataSource.sort = this.sort;
+        //  console.log(this.dataSource.sort);
+        //  this.dataSource2 = data.length;
       });
   }
-
-  /*setPage(i,$event)
-{
-  this.page=i
-  this.apiService.getAll2(this.page).subscribe(data => {
-    this.dataSource = data;
-
-    this.pages=new Array['totalPages']
-    this.dataSource = new MatTableDataSource<any>(data);
-  //  this.dataSource.paginator = this.paginator;
-
-//    this.dataSource2=this.dataSource;
-  });
-
-}*/
 
   constructor(
     private apiService: ApiService,
@@ -125,9 +137,21 @@ export class FeatureListComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  };
+  /*  public doFilter = (value: string) => {
+   this.dataSource.filter = value.trim().toLocaleLowerCase();
+
+ };*/
+  doFilter(filter: string) {
+    this.filtervariable = filter;
+    console.log(this.filtervariable);
+    this.loadAll(
+      this.pageNumber,
+      this.pageSize,
+      this.sortname,
+      this.sorttype,
+      this.filtervariable
+    );
+  }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

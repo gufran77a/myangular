@@ -11,7 +11,14 @@ table {
   text-transform: uppercase;
   margin: 0 0 20px 0;
 }
+.mat-cell,
+.mat-header-cell {
+  padding-top: 16px;
+}
 
+mat-form-field {
+  width: 280px;
+}
 mat-card {
   margin: 0 0 20px 0;
 

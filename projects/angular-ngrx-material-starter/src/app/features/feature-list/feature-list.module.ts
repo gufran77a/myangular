@@ -19,7 +19,7 @@ import { FeatureEditComponent } from '../feature-list/feature-edit/feature-list.
 import { FeatureListRoutingModule } from './feature-list-routing.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -50,6 +50,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
+    MatSortModule,
     //FlexLayoutModule,
 
     /*  TranslateModule.forChild({
@@ -67,7 +68,8 @@ import { MatInputModule } from '@angular/material/input';
     MatTableModule,
     CdkTableModule,
     MatFormFieldModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class FeatureListModule {}
