@@ -14,7 +14,7 @@ import {
   DialogOverviewExampleDialog,
   ApiService
 } from './feature-list/feature-list.component';
-
+import { FeatureEditReadComponent } from '../feature-list/feature-editread/feature-read.component';
 import { FeatureEditComponent } from '../feature-list/feature-edit/feature-list.component';
 import { FeatureListRoutingModule } from './feature-list-routing.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -25,13 +25,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     FeatureListComponent,
     Form1Component,
     FeatureEditComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    FeatureEditReadComponent
   ],
   providers: [
     ApiService,
@@ -51,6 +55,9 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
+    MatMenuModule,
+    MatIconModule,
+
     //FlexLayoutModule,
 
     /*  TranslateModule.forChild({
@@ -69,7 +76,9 @@ import { MatInputModule } from '@angular/material/input';
     CdkTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatMenuModule,
+    MatIconModule
   ]
 })
 export class FeatureListModule {}

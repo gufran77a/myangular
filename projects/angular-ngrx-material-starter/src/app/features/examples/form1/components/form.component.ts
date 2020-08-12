@@ -55,6 +55,9 @@ export class Form1Component implements OnInit {
   form = this.fb.group({
     //autosave: false,
     id: ['', []],
+    createdDate: ['', []],
+    modifieddate: ['', []],
+
     name: ['', [Validators.required]],
     phonenumber: [
       '',
@@ -138,6 +141,11 @@ export class Form1Component implements OnInit {
   serviceposturl = 'http://localhost:3000/student';
 
   save() {
+    var date = new Date();
+    var createddate2 = date.getTime();
+    var modifieddate = null;
+    this.form.value['modifieddate'] = modifieddate;
+    this.form.value['createdDate'] = createddate2;
     this.http.post(this.serviceposturl, this.form.value).subscribe(data => {
       this.router.navigateByUrl('/students');
       //  this.postId = data.id;

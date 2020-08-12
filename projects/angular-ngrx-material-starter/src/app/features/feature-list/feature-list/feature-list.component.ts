@@ -58,28 +58,24 @@ export class ApiService {
 export class FeatureListComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
-    //'id',
     'name',
     'email',
     'phonenumber',
     'vehicleroot',
+    'createdDate',
     'actions'
   ];
   dataSource = new MatTableDataSource<any>([]);
   selection = new SelectionModel<any>(true, []);
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  //@ViewChild(MatPaginator) paginator: MatPaginator;
-  //@ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
   pageNumber = 1;
-  pageSize = 10;
+  pageSize = 6;
   index = 100;
   length: number;
   dataSource2: number;
-  sortname: string = 'name';
-  sorttype: string = 'asc';
+  sortname: string = 'createdDate';
+  sorttype: string = 'desc';
   filtervariable: string = '';
 
   getServerData(obj) {
@@ -123,10 +119,9 @@ export class FeatureListComponent implements OnInit {
         q: filtertype
       })
       .subscribe(data => {
+        //var x=data['createdDate']
+        //.toString("MMM dd"); // "Dec 20
         this.dataSource = new MatTableDataSource<any>(data);
-        //  this.dataSource.sort = this.sort;
-        //  console.log(this.dataSource.sort);
-        //  this.dataSource2 = data.length;
       });
   }
 
@@ -241,7 +236,6 @@ export class DialogOverviewExampleDialog {
         //this.router.navigateByUrl('/students');
       });
     }
-    alert(this.data.name + '   ' + 'is Deleted Successfully');
     this.refresh();
   }
   refresh() {

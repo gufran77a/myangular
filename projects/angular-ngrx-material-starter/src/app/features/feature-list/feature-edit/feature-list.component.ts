@@ -45,6 +45,7 @@ export class FeatureEditComponent implements OnInit {
   form = this.fb.group({
     id: ['', []],
     name: ['', []],
+    createdDate: ['', []],
     phonenumber: [''],
     address: ['', []],
     birthdate: ['', []],
@@ -76,6 +77,8 @@ export class FeatureEditComponent implements OnInit {
         this.form = this.fb.group({
           id: [this.student.id, [Validators.required]],
           name: [this.student.name, [Validators.required]],
+          createdDate: [this.student.createdDate, []],
+          modifieddate: ['', []],
           phonenumber: [
             this.student.phonenumber,
             [
@@ -121,7 +124,9 @@ export class FeatureEditComponent implements OnInit {
   }
 
   updateTutorial(form) {
-    //console.log(form);
+    var date = new Date();
+    var modifieddate2 = date.getTime();
+    form.value['modifieddate'] = modifieddate2;
 
     this.update(form.value['id'], form.value).subscribe(
       response => {
