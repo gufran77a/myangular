@@ -16,25 +16,19 @@
 
 
 <div class="row justify-content-center">
-        <div class="col-md-4 mt-2">
-          <!--<button type="button" mat-raised-button class="actions-main" [disabled]="selection.selected.length==0" color="warn"  class="mr-3 mt-4" (click)="deleteItem()">
-          Delete
-          </button>-->
+        <div class="col-md-6">
           </div>
 
 
               <div class="col-md-3">
+              </div>
 
 
-  </div>
-
-
-  <div class="col-md-3 mt-2">
-
-    <div class="mr-3">
-      <mat-form-field >
+  <div class="col-md-2">
+    <div class="ml-5">
+      <mat-form-field>
         <mat-label>Search</mat-label>
-        <input matInput type="text" (keyup)="doFilter($event.target.value)">
+        <input matInput type="text" style="width:" (keyup)="doFilter($event.target.value)">
       </mat-form-field>
     </div>
 
@@ -43,12 +37,11 @@
 
 
 
-<div class="col-md-2 mt-2">
-  <!--<button type="button" mat-raised-button color="accent"[routerLink]="['studentm']" class="mr-5 mr-1 mt-4">
-      New Student Form
-      </button>
-      </div>-->
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
+
+
+<div class="col-md-1">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="ml-5 mt-4">
   <mat-icon>more_vert</mat-icon>
 </button>
 

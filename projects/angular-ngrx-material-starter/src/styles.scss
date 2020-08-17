@@ -56,3 +56,12 @@
   @include angular-material-theme($anms-nature-theme);
   @include custom-components-theme($anms-nature-theme);
 }
+.mat-form-field-wrapper {
+  #background-color: red !important;
+  #padding-top: 0px;
+  #padding-bottom: 0px;
+}
+.mat-form-field-flex {
+  #padding-top: 0px !important;
+  background: inherit !important;
+}

@@ -1,7 +1,4 @@
 @import '../../../../styles-variables';
-table {
-  width: 100%;
-}
 
 .container {
   margin-top: 20px;
@@ -11,20 +8,7 @@ table {
   text-transform: uppercase;
   margin: 0 0 20px 0;
 }
-.mat-cell,
-.mat-header-cell {
-  padding-top: 16px;
-}
 
-.material-icons {
-  font-size: 20px;
-}
-
-mat-form-field {
-  div {
-    background-color: red;
-  }
-}
 mat-card {
   margin: 0 0 20px 0;
 

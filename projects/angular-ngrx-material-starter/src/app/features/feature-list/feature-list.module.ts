@@ -14,7 +14,10 @@ import {
   DialogOverviewExampleDialog,
   ApiService
 } from './feature-list/feature-list.component';
-import { FeatureEditReadComponent } from '../feature-list/feature-editread/feature-read.component';
+import {
+  FeatureEditReadComponent,
+  DialogOverviewExampleDialog2
+} from '../feature-list/feature-editread/feature-read.component';
 import { FeatureEditComponent } from '../feature-list/feature-edit/feature-list.component';
 import { FeatureListRoutingModule } from './feature-list-routing.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -35,7 +38,8 @@ import { MatIconModule } from '@angular/material/icon';
     Form1Component,
     FeatureEditComponent,
     DialogOverviewExampleDialog,
-    FeatureEditReadComponent
+    FeatureEditReadComponent,
+    DialogOverviewExampleDialog2
   ],
   providers: [
     ApiService,

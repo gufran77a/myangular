@@ -187,7 +187,7 @@ export class FeatureListComponent implements OnInit {
 
   openDialog(id2, id3): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      //width: '350px',
+      //  width: '350px',
       data: { id: id2, name: id3 }
     });
 
@@ -199,7 +199,7 @@ export class FeatureListComponent implements OnInit {
   }
 }
 
-export interface DialogData {
+interface DialogData {
   id: string;
   name: string;
 }
@@ -226,7 +226,7 @@ export class DialogOverviewExampleDialog {
   }
   onNoClick(): void {
     this.dialogRef.close();
-    alert('Cancel Selected Item');
+    //alert('Cancel Selected Item');
     this.refresh();
   }
   onYesClick(id2): void {

@@ -1,0 +1,114 @@
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-md-4">
+      </div>
+        <div class="col-md-4">
+            <h3 class="main-heading">Student Form</h3>
+          </div>
+
+    <div class="col-md-4">
+    </div>
+  </div>
+
+
+<mat-card>
+  <span class="d-flex justify-content-between align-items-baseline">
+    <h4>Personal Information</h4>
+
+  </span>
+  <div class="row">
+    <mat-form-field class="col">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="" value="{{data.name}}"readonly>
+    </mat-form-field>
+
+    </div>
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-label>Phonenumber</mat-label>
+        <input matInput placeholder="" value="{{data.phonenumber}}"readonly>
+      </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col">
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="" value="{{data.address}}"readonly>
+        </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Birthdate</mat-label>
+            <input matInput placeholder="" value="{{data.birthdate}}"readonly>
+          </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col">
+              <mat-label>Gender</mat-label>
+              <input matInput placeholder="" value="{{data.gender}}"readonly>
+            </mat-form-field>
+            </div>
+
+</mat-card>
+<mat-card>
+  <span class="d-flex justify-content-between align-items-baseline">
+    <h4>Academic Information</h4>
+    <!--mat-slide-toggle formControlName="autosave">
+      {{ 'anms.examples.form.autosave' | translate }}
+    </mat-slide-toggle-->
+  </span>
+
+  <div class="row">
+    <mat-form-field class="col">
+      <mat-label>Parentname</mat-label>
+      <input matInput placeholder="" value="{{data.parentname}}"readonly>
+    </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-label>Classes</mat-label>
+        <input matInput placeholder="" value="{{data.classes}}"readonly>
+      </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col">
+          <mat-label>Dormintary</mat-label>
+          <input matInput placeholder="" value="{{data.dormintary}}"readonly>
+        </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Vehicleroot</mat-label>
+            <input matInput placeholder="" value="{{data.vehicleroot}}"readonly>
+          </mat-form-field>
+          </div>
+
+
+  </mat-card>
+
+  <mat-card>
+    <span class="d-flex justify-content-between align-items-baseline">
+      <h4>Account Information</h4>
+
+    </span>
+    <div class="row">
+      <mat-form-field class="col">
+<mat-label>Email</mat-label>
+        <input matInput placeholder="" value="{{data.email}}" readonly>
+      </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="" value="{{data.password}}" readonly>
+        </mat-form-field>
+        </div>
+
+</mat-card>
+
+
+
+
+
+</div>
